@@ -2,11 +2,22 @@ let inputNumEL = document.getElementById("inputNum");
 
 let msgEl = document.getElementById("msg");
 
-let randomNumEl = Math.floor( Math.random() * 100);
+let btnCheckEl = document.getElementById("btnCheck");
 
 let btnResetEl = document.getElementById("btnReset");
 
+let randomNumEl = Math.ceil( Math.random() * 100);
+
+console.log( randomNumEl );
+
 let count = 0;
+
+
+function validInput(){
+
+    msgEl.textContent = "Please enter the valid input!!";
+    msgEl.style.color = "#dc0e0e";
+}
 
 function checkNum(){
 
@@ -14,58 +25,87 @@ function checkNum(){
 
     if( count < 5 ){
 
-        count = count + 1;
+        if( userGuess < randomNumEl ){
+            
+            if(inputNumEL.value === ""){
 
-        if( userGuess === randomNumEl ){
+                validInput();
+            }
 
-            msgEl.textContent = `Congratulations!! You got it right. ( Guess Count : ${count})`;
-            msgEl.style.color = "white";
-            msgEl.style.background = "green";
-            btnResetEl.textContent = "Play Again";
+            else{
 
+                count = count + 1;
+
+                msgEl.textContent = `Too Low! Try Again. ( Guess Count : ${count})`;
+                msgEl.style.color = "#dc0e0e";
+
+                inputNumEL.value = "";
+            }
         }
 
-        else if ( userGuess < randomNumEl ){
+        else if( userGuess > randomNumEl ){
 
-            msgEl.textContent = `Too Low! Try Again. ( Guess Count : ${count})`;
-            msgEl.style.color = "white";
-            msgEl.style.background = "blue";
+            if(inputNumEL.value === ""){
 
-            inputNumEL.value = "";
+                validInput();
+            }
 
+            else{
+
+                count = count + 1;
+
+                msgEl.textContent = `Too High! Try Again. ( Guess Count : ${count})`;
+                msgEl.style.color = "#dc0e0e";
+
+                inputNumEL.value = "";
+            }
         }
 
-        else {
+        else{
 
-            msgEl.textContent = `Too High! Try Again. ( Guess Count : ${count})`;
-            msgEl.style.color = "white";
-            msgEl.style.background = "blue";
+            if( userGuess === randomNumEl ){
 
-            inputNumEL.value = "";
+                msgEl.textContent = `Congratulations!! You got it right. ( Guess Count : ${count})`;
+                msgEl.style.color = "green";
+
+                btnCheckEl.style.display = "none";
+                btnResetEl.style.display = "inline";
+                btnResetEl.textContent = "Play Again";
+
+            }
+
+            else{
+
+                validInput();
+            }
+
         }
 
     }
 
     else{
 
-        msgEl.textContent = `Game Over! The correct number was ${randomNumEl}.`;
-        msgEl.style.color = "white";
-        msgEl.style.background = "#dc0e0e";
+        msgEl.textContent = `GAME OVER!!! The correct number was ${randomNumEl}.`;
+        msgEl.style.color = "#dc0e0e";
 
+        
+        btnCheckEl.style.display = "none";
+        btnResetEl.style.display = "inline";
+        btnResetEl.textContent = "Check";
     }
 
 }
 
 function btnReset(){
 
-    randomNumEl = Math.floor(Math.random() * 100);
+    randomNumEl = Math.ceil(Math.random() * 100);
 
     count = 0;
 
     inputNumEL.value = "";
 
     msgEl.textContent = "Game Reset! Start guessing...";
-    msgEl.style.color = "white";
-    msgEl.style.background = "green";
-    btnResetEl.textContent = "Reset";
+    msgEl.style.color = "green";
+    btnCheckEl.style.display = "inline";
+    btnResetEl.style.display = "none";
 }
